@@ -2,19 +2,14 @@ package com.stefan.salaryapp.repository;
 
 import com.stefan.jooq.model.tables.pojos.Salaries;
 import com.stefan.jooq.model.tables.records.SalariesRecord;
-import com.stefan.jooq.model.tables.records.UsersRecord;
 import com.stefan.salaryapp.dto.Salary;
-import com.stefan.salaryapp.util.Role;
 import org.jooq.DSLContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static com.stefan.jooq.model.Tables.*;
-import static org.jooq.impl.DSL.concat;
-import static org.jooq.impl.SQLDataType.VARCHAR;
 
 @Repository
 public class SalaryRepository {
@@ -32,11 +27,6 @@ public class SalaryRepository {
             COMPANIES.COMPANY_NAME,
             CITIES.CITY_NAME,
             CAREER_LEVELS.LEVEL_NAME,
-//            concat(
-//                CAREER_LEVELS.MIN_YEARS_OF_EXPERIENCE.cast(VARCHAR(2)),
-//                " - ",
-//                CAREER_LEVELS.MAX_YEARS_OF_EXPERIENCE.cast(VARCHAR(2))
-//            ),
             SALARIES.ADDED,
             SALARIES.SALARY
         )
