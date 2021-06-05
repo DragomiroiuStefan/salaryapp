@@ -1,10 +1,15 @@
 package com.stefan.salaryapp.repository;
 
+import com.stefan.jooq.model.tables.pojos.Salaries;
+import com.stefan.jooq.model.tables.records.SalariesRecord;
+import com.stefan.jooq.model.tables.records.UsersRecord;
 import com.stefan.salaryapp.dto.Salary;
+import com.stefan.salaryapp.util.Role;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.stefan.jooq.model.Tables.*;
@@ -14,7 +19,6 @@ import static org.jooq.impl.SQLDataType.VARCHAR;
 @Repository
 public class SalaryRepository {
 
-    @Autowired
     private final DSLContext dslContext;
 
     public SalaryRepository(DSLContext dslContext) {
@@ -42,5 +46,21 @@ public class SalaryRepository {
             .innerJoin(CITIES).on(CITIES.CITY_ID.eq(SALARIES.LOCATION_ID))
             .innerJoin(CAREER_LEVELS).on(CAREER_LEVELS.LEVEL_ID.eq(SALARIES.LEVEL_ID))
             .fetchInto(Salary.class);
+    }
+
+    public SalariesRecord addSalary(Salaries salary) {
+        var salariesRecord = new SalariesRecord();
+        salariesRecord.setJobTitle(salary.getJobTitle());
+        salariesRecord.setAreaId(salary.getAreaId());
+        salariesRecord.setCompanyId(salary.getCompanyId());
+        salariesRecord.setLocationId(salary.getLocationId());
+        salariesRecord.setLevelId(salary.getLevelId());
+        salariesRecord.setAdded(LocalDate.now());
+        salariesRecord.setSalary(salary.getSalary());
+
+        return  dslContext.insertInto(SALARIES)
+            .set(salariesRecord)
+            .returning()
+            .fetchOne();
     }
 }

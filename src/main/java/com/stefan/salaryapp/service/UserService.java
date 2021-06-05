@@ -1,7 +1,6 @@
 package com.stefan.salaryapp.service;
 
 import com.stefan.jooq.model.tables.pojos.Users;
-import com.stefan.jooq.model.tables.records.UsersRecord;
 import com.stefan.salaryapp.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
